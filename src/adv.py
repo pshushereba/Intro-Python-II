@@ -1,24 +1,25 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons\n"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.\n"""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.\n"""),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+to north. The smell of gold permeates the air.\n"""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.\n"""),
 }
 
 
@@ -39,6 +40,9 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+p1 = Player('Patrick', room['foyer'])
+
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +53,27 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+
+def get_user_choice():
+    choice = input("[n] North [s] South [e] East [w] West [q] Quit\n")
+    return choice
+
+# start
+
+user_choice = get_user_choice()
+
+while user_choice != 'q':
+    print(f'{p1.current_room.room_name}')
+    print(p1.current_room.description)
+    player_move = get_user_choice()
+    if player_move == 'n':
+        p1.current_room = p1.current_room.n_to
+    elif player_move == 's':
+        p1.current_room = p1.current_room.s_to
+    elif player_move == 'e':
+        p1.current_room = p1.current_room.e_to
+    elif player_move == 'w':
+        p1.current_room = p1.current_room.w_to
+    else:
+        print('Please enter a valid direction:')
